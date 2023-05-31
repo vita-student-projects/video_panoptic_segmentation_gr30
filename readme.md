@@ -41,8 +41,8 @@ See the following section for more information on datasets.
 In the Video K-net case, we used the checkpoints provided by the authors of the paper for the pre-training on Cityscapes. In the Pix2Seq-D case, we ran the pre-training on Cityscapes ourselves from scratch, and then also the training on KITTI-STEP for Video Panoptic Segmentation.
 
 We both did qualitative and quantitative evaluations. The qualitative comprised creating a script to visualize a gif video to see the colored panoptic masks. The quantitative comprised the following measures:
-- Video Panoptic Quality (VPQ) 
-- Segmentation and Tracking Quality (STQ)
+- Segmentation and tracking quality (STQ). STQ takes into account both segmentation quality (how accurate the object boundaries are) and tracking quality (how well the objects are tracked across consecutive frames).
+- Association Quality (AQ). AQ assesses the quality of the association between the identified segments and the ground truth objects in video panoptic segmentation. It measures how well the model assigns the correct identity to each segment, indicating the accuracy of the instance-level association.
 
 Finally, since the training processes were heavy, we used powerful GPUs. More specifically, we used:
 - an RTX3090 for Video K-net
@@ -147,6 +147,8 @@ The following are the quantitative results obtained with our implementation of P
 |-----------------------------|---------|--------|
 | Our Results (Video K-net)    | 0.66    | 0.69   |
 | Authors' Results (Video K-net)| 0.71    | 0.70   |
+
+To gather high-quality quantitative metrics on Pix2Seq-D, we would need to train the model for more epochs, and on a larger dataset.
 
 
 
