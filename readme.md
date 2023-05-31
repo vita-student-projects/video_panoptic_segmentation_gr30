@@ -1,5 +1,6 @@
 # Diffusion Models vs Learnable Kernels for Video Panoptic Segmentation
 ## Ceraolo Martorella Minini DLAV2023 Final Project
+[Click here for the short video presentation](https://youtu.be/lESWO-GZMV4)
 
 ## Introduction - What’s Video Panoptic Segmentation?
  Panoptic segmentation is an advanced computer vision task that combines instance segmentation and semantic segmentation to provide a comprehensive understanding of the visual scene in a video. It aims to label every pixel in the video with a class label and an instance ID, thereby differentiating between different objects and identifying their boundaries. This task involves simultaneously segmenting and tracking "things" (individual objects) and "stuff" (background regions). Handling temporal coherence and tracking objects across frames are important considerations to achieve accurate and consistent segmentation results. It plays a crucial role in various applications, including autonomous driving, video surveillance, augmented reality, and robotics, enabling machines to perceive and interpret the environment more comprehensively.
@@ -154,7 +155,6 @@ The following are the quantitative results obtained with our implementation of P
 |                             | STQ     | AQ     |
 |-----------------------------|---------|--------|
 | Our Results (Video K-net)    | 0.66    | 0.69   |
-| Our Results (Pix2Seq)       | /NA     | /NA    |
 | Authors' Results (Video K-net)| 0.71    | 0.70   |
 
 
