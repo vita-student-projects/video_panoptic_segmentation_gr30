@@ -30,15 +30,15 @@ kitti-step
 
 These kitti-step folder has to be put inside the `data` folder.
 
-To train the model on cityscapes starting from checkpoints pre-trained on citiscapres, you should should first of all download weights in the `weights` folder. You can find our best weights (latest.pth) and the weights of the authors in this [Google Drive  folder](https://drive.google.com/drive/folders/13rXX12MUjAfj-HlwVWa_QKNuKl8UmsF9?usp=share_link).
+To train the model on cityscapes starting from checkpoints pre-trained on citiscapres, you should should first of all download weights in the `weights` folder (you have to create it first). You can find our best weights (latest.pth) and the weights of the authors in this [Google Drive  folder](https://drive.google.com/drive/folders/13rXX12MUjAfj-HlwVWa_QKNuKl8UmsF9?usp=share_link).
 
-To run the training step you should run the following command (substitute `WORK_DIR` with the path to the working directory and `CHECKPOINT` with the path to the checkpoint):
+To run the training step you should run the following command (substitute `TRAIN_OUTPUT_DIR` with the path to the working directory and `CHECKPOINT` with the path to the checkpoint):
 
 
 
 ```bash
 # train Video K-Net on KITTI-step with 3 GPUs from pretrained checkpoint
-bash ./tools/dist_train.sh configs/video_knet_kitti_step/video_knet_s3_r50_rpn_1x_kitti_step_sigmoid_stride2_mask_embed_link_ffn_joint_train.py 3 $WORK_DIR --no-validate --load-from $CHECKPOINT
+bash ./tools/dist_train.sh configs/video_knet_kitti_step/video_knet_s3_r50_rpn_1x_kitti_step_sigmoid_stride2_mask_embed_link_ffn_joint_train.py 1 $TRAIN_OUTPUT_DIR --no-validate --load-from $CHECKPOINT
 ```
 
 To run inference on the validation step of kittistep, follow the following steps
