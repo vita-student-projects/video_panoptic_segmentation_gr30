@@ -18,24 +18,24 @@ Video K-Net is a framework for fully end-to-end video panoptic segmentation. The
 
 
 ## History - our project
-We believe that the idea behind Pix2Seq-D is incredibly fascinating and powerful, and that’s why we were very keen on working with it, notwithstanding the issues we had. We spent several weeks trying to run the Tensorflow code provided by Google Research, but we encountered numerous issues that prevented us from using their code (see the section #issues for more details). We tried a huge amount of solutions, different setups, several GPUs and GPU providers, and so on, without success. So more recently, we decided to embark on an ambitious mission: rewriting the Pix2Seq-D codebase in PyTorch. Fortunately, individual contributors on Github already converted some sub-parts of the project (e.g. Bit-diffusion). After some heavy work, we actually managed to have a draft of the full project. It is now running the training for the very first time, so we don’t expect perfect results yet. We plan on pursuing and completing this project also after the milestone deadline.
- In parallel, since we knew about the uncertainty of such a challenge, we also setup and run the training of another architecture, Video K-net, so that we also have outputs to show, and a baseline performance to compare the results of our main contribution.
+We believe that the idea behind Pix2Seq-D is incredibly fascinating and powerful, and that’s why we were very keen on working with it, notwithstanding the issues we had. We spent several weeks trying to run the Tensorflow code provided by Google Research, but we encountered numerous issues that prevented us from using their code (see the section [#issues](#side-notes:-issues-we-had) for more details). We tried a huge amount of solutions, different setups, several GPUs and GPU providers, and so on, without success. So more recently, we decided to embark on an ambitious mission: rewriting the Pix2Seq-D codebase in PyTorch. Fortunately, individual contributors on Github already converted some sub-parts of the project (e.g. [Bit-Diffusion by lucidrains](https://github.com/lucidrains/bit-diffusion)). After some heavy work, we actually managed to have a draft of the full project. It is now running the training for the very first time, so we don’t expect perfect results yet. We plan on pursuing and completing this project also after the milestone deadline.
+ In parallel, since we knew about the uncertainty of such a challenge, we also setup and run the training of another architecture, Video K-Net, so that we also have outputs to show, and a baseline performance to compare the results of our main contribution.
 
 ## Contribution overview
 Our main contribution is within the Pix2Seq-D architecture. The contributions are three: the re-implementation of the whole codebase in Pytorch, and the adaptation of the architecture to the task of Video Panoptic Segmentation. We also ran the training of another architecture, Video K-net, in order to have a solid benchmark, with same datasets for pre-training and training.
 
 - First of all, we believe that our re-implementation in Pytorch can help the scientific community, ensuring more interoperability, clarity, and extending the audience that can build solutions on top of Pix2Seq-D. Diffusion models are very recent and proved to be very powerful, so the more researchers can have access to resources and codebases, the faster innnovations will come. It also improves the reproducibility of Pix2Seq-D, since their tensorflow codebase is complex to use and the setup is unclear.
 
-- Secondly, we adapted the codebase to the task of Video Panoptic Segmentation. The authors of the paper used it for Image Panoptic Segmentation and Video Segmentation, but not for Video Panoptic Segmentation. We believe that this is a very interesting task, and that the diffusion model can be very powerful for it. T
+- Secondly, we adapted the codebase to the task of Video Panoptic Segmentation. The authors of the paper used it for Image Panoptic Segmentation and Video Segmentation, but not for Video Panoptic Segmentation. We believe that this is a very interesting task, and that the diffusion model can be very powerful for it.
 
 Finally, we ran another architecture, Video K-net, in order to have a solid benchmark, with same pre-training and training, and become familiar with the panoptic mask generation process.
 
 
 ## Experimental setup
 With both architectures, we kept consistency of the training procedure. We used the following experimental setup:
-- Backbone: ResNet50 pre-trained on ImageNet for Video K-net, ResNet50 pre-trained on Imagenet with Features Pyramid Network for Pix2Seq-D
+- Backbone: ResNet50 pre-trained on ImageNet for Video K-net, ResNet50 FPN pre-trained on COCO from Torchvision's [FasterRCNN_ResNet50_FPN_V2](https://pytorch.org/vision/stable/models/generated/torchvision.models.detection.fasterrcnn_resnet50_fpn_v2.html#torchvision.models.detection.fasterrcnn_resnet50_fpn_v2) for Pix2Seq-D
 - pre-training on Cityscapes
-- training on KITTI-step
+- training on KITTI-STEP
 See the following section for more information on datasets.
 
 In the Video K-net case, we used the checkpoints provided by the authors of the paper for the pre-training on Cityscapes. In the Pix2Seq-D case, we ran the pre-training on Cityscapes ourselves from scratch, and then also the training on KITTI-STEP for Video Panoptic Segmentation.
@@ -46,7 +46,7 @@ We both did qualitative and quantitative evaluations. The qualitative comprised 
 
 Finally, since the training processes were heavy, we used powerful GPUs. More specifically, we used:
 - an RTX3090 for Video K-net
-- one A100 of 80GB for Pix2Seq-D
+- an A100 80GB for Pix2Seq-D
 
 ## Data
 The dataset used for pre-training is Cityscapes. Cityscapes dataset is a high-resolution road-scene dataset which contains 19 classes. (8 thing classes and 11 stuff classes). It contains 2975 images for training, 500 images for validation and 1525 images for testing.
@@ -112,7 +112,7 @@ The following are the masks obtained with our implementation of Pix2Seq-D, pretr
 
 Inference is done on a sequence of the train set of KITTI-STEP. The first video is the input, the second is the predicted instance segmentation mask, the third is the predicted semantic segmentation mask, the fourth is the predicted panoptic segmentation mask, and the fifth is the overlay of the predicted panoptic mask on the input video.
 
-The results of Pix2Seq-D are definetly improvable, and worse than the ones given by Video K-net. This is probably due to the fact that we did not have enough time to tune the hyperparameters, and we did not have enough computational power to train the model for more epochs. However, we believe that the results are still good, and that the model is able to learn. This brought us to believe that, given more time and computational power, we could obtain better results.
+The results of Pix2Seq-D are definetly improvable, and worse than the ones given by Video K-net. This is probably due to the fact that we did not have enough time to train the model properly for enough epochs, not enough computational power to tune the hyperparameters. However, we believe that the results are still good, and that the model is able to learn. This brought us to believe that, given more time and computational power, we could obtain better results.
 
 ![Original Video](output_gifs_pix2seq/train_set/result_video.gif)
 
@@ -156,7 +156,7 @@ To gather high-quality quantitative metrics on Pix2Seq-D, we would need to train
 In the subfolders of this repository, you can find the code for the two models we used, both our implementation of Pix2Seq-D and the code we used to run Video K-net. You can also find the procedures to run the code, and the links to download the checkpoints. 
 
 ## Next steps
-We are confident that Pix2Seq-D can be improved and has large performance potential, and we have some ideas on how to do it. First of all, encouraged by the loss decrasing during the few epochs of training that we ran, we believe that the model can be trained for more epochs, and that this will lead to better results. Moreover, the model can be further improved by training it on larger datasets, both in pretraining and in training phase. Finally, we would also want to consider to do some changes to the architecture. For instance, we have the following idea in mind. The solution they propose to do Video Panoptic Segmentation is by using the Diffusion process, and when predicting the frame at time t, they guide the diffusion by conditioning on the previous panoptic mask. Our idea is the following: instad of conditioning only on the previous mask, we plan on finding a way to compute the difference between the current frame and the previous one, and condition on such difference, together with the previous mask. The idea is that, given two frames, it is very likely that there will not be extreme changes, but mainly instances that moved by some pictures. The difference between the frames will highlight what changed, and hence may make the diffusion process to find the mask faster, and more accurate. Since we had to re-write the whole codebase, we were not able to implement such configuration yet.
+We are confident that Pix2Seq-D can be improved and has large performance potential, and we have some ideas on how to do it. First of all, encouraged by the loss decrasing during the few epochs of training that we ran (see [Pix2Seq-D's README](./Pix2Seq-D/README.md)), we believe that the model can be trained for more epochs, and that this will lead to better results. Moreover, the model can be further improved by training it on larger datasets, both in pretraining and in training phase. Finally, we would also want to consider to do some changes to the architecture. For instance, we have the following idea in mind. The solution they propose to do Video Panoptic Segmentation is by using the Diffusion process, and when predicting the frame at time t, they guide the diffusion by conditioning on the previous panoptic mask. Our idea is the following: instead of conditioning only on the previous mask, we plan on finding a way to compute the difference between the current frame and the previous one, and condition on such difference, together with the previous mask. The idea is that, given two frames, it is very likely that there will not be extreme changes, but mainly instances that moved by some pictures. The difference between the frames will highlight what changed, and hence may make the diffusion process to find the mask faster, and more accurate. Since we had to re-write the whole codebase, we were not able to implement such configuration yet.
 
 
 ## Side notes: issues we had
@@ -164,15 +164,15 @@ We believe it can be useful to share with the EPFL community the issues that we 
 
 - The computational load of the training was very high and thus we cannot run the code on our machines, as memory got filled almost immediately. 
 
-- Thus, we had been trying to run the code on the Izar cluster but we encountered lots of issues there as well. Mainly, there were issues with setting up the environment and having the right packages installed and working together without conflicts. Eventually, we did manage to install the right versions of the packages, but still there was an issue with the path of a certificate required by tensorflow. 
+- Thus, we had been trying to run the code on the Izar cluster but we encountered lots of issues there as well. Mainly, there were issues with setting up the environment and having the right packages installed and working together without conflicts. Eventually, we did manage to install the right versions of the packages, but still there was an issue with the path of an ssl certificate required by tensorflow. 
 
 - To solve this issue, we set up Docker on the cluster but we could not build the docker image, since the instructions and line commands found on the SCITAS documentation were outdated. 
 - We tried to solve this issue by contacting the technical desk, but unfortunately they have not been able to find an effective solution and they refused to add a symlink on the cluster, which would have solved our issue. 
 - The technical desk has contacted us again and they proposed some other solutions, but at that point it was too late to try them out because of the restricted reserved slots.
 
-- In the meanwhile, we also tried alternatives to run the code. We tried to run it on cloud computing services such as Colab and Kaggle, but each of them has its own problems. Colab does not offer enough GPU memory, Kaggle does but the training breaks because of an issue with a tensorflow library.
+- In the meanwhile, we also tried alternatives to run the code. We tried to run it on cloud computing services such as Colab, Kaggle, Google Cloud, and Microsoft Azure, but each of them has its own problems. Colab does not offer enough GPU memory, Kaggle does but the training breaks because of an issue with a tensorflow library.
 
-All this problems brought us to the conclusion that the best solution was to convert the codebase to Pytorch, which is more flexible and easier to run on different platforms. We also found the best solution to run the code on GPUs, which external pay-per-use GPUs, namely runpod.io.
+All this problems brought us to the conclusion that the best solution was to convert the codebase to Pytorch, which is more flexible and easier to run on different platforms. We also found the best solution to run the code on GPUs, which external pay-per-use GPUs, namely [runpod.io](https://www.runpod.io).
 
 ## References
 ```
