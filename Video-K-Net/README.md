@@ -1,4 +1,4 @@
-## How to run the code
+# How to run the code
 
 ## Setting up the environment
 
@@ -75,7 +75,7 @@ bash ./tools/evaluate_stq.sh ./model_inference_outputs
 bash ./tools/evaluate_vpq.sh ./model_inference_outputs
 ```
 
-## To run inference on your own frames.
+## Running inference on your own frames.
 
 To run inference on your frames follow the following procedure:
 
