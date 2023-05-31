@@ -17,13 +17,13 @@ In order to train, run inference and evaluate on kittistep you need to download 
 kitti-step 
 ├── video_squence
 │   ├──  val
-│        ├──  000002_000000_leftImg8bit.png
-│        ├──  000002_000000_panoptic.png
-│        ├──  000002_000001_leftImg8bit.png
-│        ├──  000002_000001_panoptic.png
-│        ├──  ...
+│   │    ├──  000002_000000_leftImg8bit.png
+│   │    ├──  000002_000000_panoptic.png
+│   │    ├──  000002_000001_leftImg8bit.png
+│   │    ├──  000002_000001_panoptic.png
+│   │    ├──  ...
 │   ├──  train
-|        ├──  ...
+|   │    ├──  ...
 │   ├──  test 
 │        ├──  ...
 ```
