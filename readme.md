@@ -148,8 +148,7 @@ The following are the quantitative results obtained with our implementation of P
 | Our Results (Video K-net)    | 0.66    | 0.69   |
 | Authors' Results (Video K-net)| 0.71    | 0.70   |
 
-To gather high-quality quantitative metrics on Pix2Seq-D, we would need to train the model for more epochs, and on a larger dataset.
-
+We were not yet able to gather quantitative metrics on Pix2Seq-D. We would need to train the model for more epochs, on a larger dataset, and have more GPU time available to run inference on the validation set.
 
 
 ## Code and replication
