@@ -32,15 +32,15 @@ Finally, we ran another architecture, Video K-net, in order to have a solid benc
 
 
 ## Experimental setup
-With both architectures, we kept consistency of the training procedure. In both cases, we used the following experimental setup:
-- Backbone: ResNet50 pre-trained on ImageNet
+With both architectures, we kept consistency of the training procedure. We used the following experimental setup:
+- Backbone: ResNet50 pre-trained on ImageNet for Video K-net, ResNet50 pre-trained on Imagenet with Features Pyramid Network for Pix2Seq-D
 - pre-training on Cityscapes
 - training on KITTI-step
 See the following section for more information on datasets.
 
 In the Video K-net case, we used the checkpoints provided by the authors of the paper for the pre-training on Cityscapes. In the Pix2Seq-D case, we ran the pre-training on Cityscapes ourselves from scratch, and then also the training on KITTI-STEP for Video Panoptic Segmentation.
 
-We both did qualitative and quantitative evaluations. The qualitative comprised creating a script to visualize a gif video to see the colored panoptic masks. The quantitative comprised the following measures:
+We both did qualitative and quantitative evaluations. The qualitative comprised creating a script to visualize a gif video to see the colored panoptic masks and do visual inspection, together with comparison with the ground truth. The quantitative comprised the following measures:
 - Segmentation and tracking quality (STQ). STQ takes into account both segmentation quality (how accurate the object boundaries are) and tracking quality (how well the objects are tracked across consecutive frames).
 - Association Quality (AQ). AQ assesses the quality of the association between the identified segments and the ground truth objects in video panoptic segmentation. It measures how well the model assigns the correct identity to each segment, indicating the accuracy of the instance-level association.
 
@@ -152,11 +152,11 @@ To gather high-quality quantitative metrics on Pix2Seq-D, we would need to train
 
 
 
-## Code
-In the subfolders of this repository, you can find the code for the two models we used, both our implementation of Pix2Seq-D and the code we used to run Video K-net.
+## Code and replication
+In the subfolders of this repository, you can find the code for the two models we used, both our implementation of Pix2Seq-D and the code we used to run Video K-net. You can also find the procedures to run the code, and the links to download the checkpoints. 
 
 ## Next steps
-We are confident that Pix2Seq-D can be improved, and we have some ideas on how to do it. First of all, encouraged by the loss decrasing during the few epochs of training that we ran, we believe that the model can be trained for more epochs, and that this will lead to better results. Moreover, the model can be further improved by training it on larger datasets, both in pretraining and in training phase. Finally, we would also want to consider to do some changes to the architecture. For instance, we have the following idea in mind. The solution they propose to do Video Panoptic Segmentation is by using the Diffusion process, and when predicting the frame at time t, they guide the diffusion by conditioning on the previous panoptic mask. Our idea is the following: instad of conditioning only on the previous mask, we plan on finding a way to compute the difference between the current frame and the previous one, and condition on such difference, together with the previous mask. The idea is that, given two frames, it is very likely that there will not be extreme changes, but mainly instances that moved by some pictures. The difference between the frames will highlight what changed, and hence may make the diffusion process to find the mask faster, and more accurate. Since we had to re-write the whole codebase, we were not able to implement such configuration yet.
+We are confident that Pix2Seq-D can be improved and has large performance potential, and we have some ideas on how to do it. First of all, encouraged by the loss decrasing during the few epochs of training that we ran, we believe that the model can be trained for more epochs, and that this will lead to better results. Moreover, the model can be further improved by training it on larger datasets, both in pretraining and in training phase. Finally, we would also want to consider to do some changes to the architecture. For instance, we have the following idea in mind. The solution they propose to do Video Panoptic Segmentation is by using the Diffusion process, and when predicting the frame at time t, they guide the diffusion by conditioning on the previous panoptic mask. Our idea is the following: instad of conditioning only on the previous mask, we plan on finding a way to compute the difference between the current frame and the previous one, and condition on such difference, together with the previous mask. The idea is that, given two frames, it is very likely that there will not be extreme changes, but mainly instances that moved by some pictures. The difference between the frames will highlight what changed, and hence may make the diffusion process to find the mask faster, and more accurate. Since we had to re-write the whole codebase, we were not able to implement such configuration yet.
 
 
 ## Side notes: issues we had
